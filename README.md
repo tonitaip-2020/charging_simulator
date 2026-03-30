@@ -20,7 +20,9 @@ For this demonstrator, PQ is shown through a few simple indicators:
 - `Phase imbalance`: are the three phases being used unevenly?
 - `THD`: a simple harmonic distortion estimate
 
-These calculations are intentionally approximate. They are suitable for a concept demo, not for formal grid studies or compliance work.
+These calculations are intentionally approximate.
+
+![Alt text](doc/screen1.png?raw=true "screenshot")
 
 ## Run it
 
