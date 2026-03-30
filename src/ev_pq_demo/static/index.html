@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EV Charging + PQ Demonstrator</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <div class="background-orb background-orb-left"></div>
+    <div class="background-orb background-orb-right"></div>
+
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Browser Demo</p>
+          <h1>EV Charging + Power Quality Demonstrator</h1>
+          <p class="hero-text">
+            Explore how charger choices and control strategies affect site loading,
+            voltage, phase balance, and harmonic risk. The electrical model is intentionally
+            simple so non-specialists can understand the trade-offs quickly.
+          </p>
+        </div>
+        <div class="hero-panel card">
+          <p class="panel-label">How to use this</p>
+          <ol class="hero-steps">
+            <li>Choose one of the canned scenarios.</li>
+            <li>Adjust the site and charger settings.</li>
+            <li>Run the simulation and compare policies.</li>
+          </ol>
+        </div>
+      </header>
+
+      <main class="app-grid">
+        <section class="card control-panel">
+          <div class="section-heading">
+            <p class="eyebrow">1. Scenario Setup</p>
+            <h2>Choose the demonstration case</h2>
+          </div>
+
+          <div class="field-group">
+            <label for="scenarioSelect">Canned use-case</label>
+            <select id="scenarioSelect"></select>
+            <p id="scenarioDescription" class="helper-text"></p>
+          </div>
+
+          <div class="two-up">
+            <div class="field-group">
+              <label for="policySelect">Charging policy</label>
+              <select id="policySelect"></select>
+            </div>
+            <div class="field-group">
+              <label for="seedInput">Random seed</label>
+              <input id="seedInput" type="number" min="1" step="1" value="7">
+            </div>
+          </div>
+
+          <p id="policyDescription" class="helper-text helper-accent"></p>
+
+          <div class="three-up">
+            <div class="field-group">
+              <label for="durationInput">Duration (hours)</label>
+              <input id="durationInput" type="number" min="1" step="1" value="24">
+            </div>
+            <div class="field-group">
+              <label for="stepInput">Time step (minutes)</label>
+              <input id="stepInput" type="number" min="1" step="1" value="15">
+            </div>
+            <div class="field-group">
+              <label for="labelInput">Run label</label>
+              <input id="labelInput" type="text" placeholder="Optional custom name">
+            </div>
+          </div>
+
+          <div class="section-heading compact">
+            <p class="eyebrow">2. Site Inputs</p>
+            <h2>Simple knobs you can explain to stakeholders</h2>
+          </div>
+
+          <div class="site-grid">
+            <div class="field-group">
+              <label for="transformerInput">Transformer limit (kW)</label>
+              <input id="transformerInput" type="number" min="1" step="1">
+            </div>
+            <div class="field-group">
+              <label for="feederInput">Feeder limit (kW)</label>
+              <input id="feederInput" type="number" min="1" step="1">
+            </div>
+            <div class="field-group">
+              <label for="baseLoadInput">Base site load (kW)</label>
+              <input id="baseLoadInput" type="number" min="0" step="1">
+            </div>
+            <div class="field-group">
+              <label for="reserveInput">Safety reserve (%)</label>
+              <input id="reserveInput" type="number" min="0" step="1">
+            </div>
+            <div class="field-group">
+              <label for="acConnectorsInput">AC connectors</label>
+              <input id="acConnectorsInput" type="number" min="0" step="1">
+            </div>
+            <div class="field-group">
+              <label for="acPowerInput">AC connector power (kW)</label>
+              <input id="acPowerInput" type="number" min="0" step="0.1">
+            </div>
+            <div class="field-group">
+              <label for="acPhasesInput">AC phases</label>
+              <select id="acPhasesInput">
+                <option value="1">Single phase</option>
+                <option value="3">Three phase</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label for="dcConnectorsInput">DC connectors</label>
+              <input id="dcConnectorsInput" type="number" min="0" step="1">
+            </div>
+            <div class="field-group">
+              <label for="dcPowerInput">DC connector power (kW)</label>
+              <input id="dcPowerInput" type="number" min="0" step="1">
+            </div>
+            <div class="field-group">
+              <label for="thdInput">Background THD (%)</label>
+              <input id="thdInput" type="number" min="0" step="0.1">
+            </div>
+          </div>
+
+          <button id="runButton" class="primary-button" type="button">Run Demonstrator</button>
+          <p id="statusLine" class="status-line">Loading presets...</p>
+        </section>
+
+        <section class="results-panel">
+          <div class="card intro-card">
+            <p class="eyebrow">3. Results</p>
+            <h2 id="resultTitle">Waiting for the first run</h2>
+            <p id="resultHeadline" class="hero-text">
+              Start with one of the canned scenarios, then compare charging policies.
+            </p>
+          </div>
+
+          <div id="summaryCards" class="summary-grid"></div>
+
+          <div class="chart-grid">
+            <article class="card chart-card">
+              <div class="card-topline">
+                <h3>Site Load</h3>
+                <p>Charging power versus total site demand</p>
+              </div>
+              <div id="loadChart" class="chart-host chart-host-tall"></div>
+            </article>
+
+            <article class="card chart-card">
+              <div class="card-topline">
+                <h3>Grid Loading</h3>
+                <p>Transformer and feeder stress over time</p>
+              </div>
+              <div id="loadingChart" class="chart-host chart-host-tall"></div>
+            </article>
+
+            <article class="card chart-card">
+              <div class="card-topline">
+                <h3>PQ Indicators</h3>
+                <p>Voltage, THD, and phase imbalance</p>
+              </div>
+              <div id="pqChart" class="chart-host chart-host-tall"></div>
+            </article>
+          </div>
+
+          <div class="two-column-grid">
+            <article class="card">
+              <div class="card-topline">
+                <h3>Plain-language takeaways</h3>
+                <p>Simple statements you can reuse in a meeting or demo</p>
+              </div>
+              <ul id="takeawayList" class="takeaway-list"></ul>
+            </article>
+
+            <article class="card">
+              <div class="card-topline">
+                <h3>PQ quick guide</h3>
+                <p>What each number means in everyday language</p>
+              </div>
+              <div id="glossaryGrid" class="glossary-grid"></div>
+            </article>
+          </div>
+
+          <div class="two-column-grid">
+            <article class="card">
+              <div class="card-topline">
+                <h3>Most stressed sessions</h3>
+                <p>The sessions with the most unmet energy or waiting</p>
+              </div>
+              <div id="sessionTable"></div>
+            </article>
+
+            <article class="card">
+              <div class="card-topline">
+                <h3>Saved runs</h3>
+                <p>Each run is kept in this browser session so you can compare scenarios and policies.</p>
+              </div>
+              <div id="comparisonTable"></div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
+
