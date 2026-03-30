@@ -36,7 +36,7 @@ Then open the local URL shown in the terminal, usually:
 http://127.0.0.1:8000
 ```
 
-If you want to stop it, press `Ctrl+C`.
+Stop with `Ctrl+C`.
 
 ## Run tests
 
@@ -53,10 +53,10 @@ python3 -m unittest discover -s tests
 - `src/ev_pq_demo/static/`: browser UI
 - `tests/`: small simulation tests
 
-## Suggested next steps
+## Potential TODOs
 
-- Add CSV import once you want to try real charging data
-- Replace the simple PQ formulas with a power-flow engine later
+- Add CSV import for real charging data
+- Replace the simple PQ formulas with a power-flow engine
 - Add cost signals or tariff-aware charging
-- Save scenario runs to SQLite if you want run history
+- Save scenario runs to SQLite for history
 
