@@ -2,12 +2,10 @@
 
 This project is a lightweight browser-based demonstrator for simulating EV charging at a site and showing a few simple power quality (PQ) indicators.
 
-It is intentionally simple:
-
 - Two canned scenarios: `Office Charging` and `Public Fast Hub`
 - Four charging policies: uncontrolled, equal sharing, deadline-aware, and grid-aware
 - A local Python web server
-- No third-party Python dependencies for the MVP
+- No third-party Python dependencies
 
 ## What "PQ" means here
 
