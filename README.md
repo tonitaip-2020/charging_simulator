@@ -24,6 +24,8 @@ These calculations are intentionally approximate.
 
 ## Run it
 
+Does not have any dependencies at the moment.
+
 From the project root:
 
 ```bash
@@ -55,6 +57,7 @@ python3 -m unittest discover -s tests
 
 ## Potential TODOs
 
+- Extend to have more charging sites
 - Add CSV import for real charging data
 - Replace the simple PQ formulas with a power-flow engine
 - Add cost signals or tariff-aware charging
