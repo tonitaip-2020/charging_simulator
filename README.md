@@ -1,6 +1,6 @@
 # EV Charging + PQ Demonstrator
 
-This project is a lightweight browser-based demonstrator for simulating EV charging at a site and showing a few simple power quality (PQ) indicators.
+This project is a lightweight browser-based demonstrator for simulating electric vehicle (EV) charging at a site and showing a few simple power quality (PQ) indicators.
 
 - Two canned scenarios: `Office Charging` and `Public Fast Hub`
 - Four charging policies: uncontrolled, equal sharing, deadline-aware, and grid-aware
